@@ -1,0 +1,84 @@
+var RevealSpeech = (function() {
+
+  if (!('webkitSpeechRecognition' in window)) {
+    console.log('Upgrade your browser you little bitch.');
+    return;
+  }
+
+  var config = {
+    nextKeyword: 'gotonext',
+    prevKeyword: 'gotoprevious',
+    lastKeyword: 'gotolast',
+    firstKeyword: 'gotofirst',
+    debug: false
+  };
+  var fragmentSpeech = {};
+  var fragmentIndex = 0;
+
+  String.prototype.contains = function(search) {
+    return this.indexOf(search) !== -1;
+  };
+
+  var recognition = new webkitSpeechRecognition();
+  recognition.continuous = true;
+  recognition.interimResults = true;
+
+  Reveal.addEventListener('slidechanged', function(event) {
+    fragmentIndex = 0;
+    fragmentSpeech = {};
+    var fragments = [].slice.call(event.currentSlide.getElementsByClassName('fragment')).filter(function(fragment) {
+      return fragment.getAttribute('data-speech') !== null;
+    });
+    if (fragments.length === 0) {
+      return;
+    }
+    var fragment;
+    for (var i = 0; i < fragments.length; i++) {
+      fragment = fragments[i];
+      fragmentSpeech[fragment.getAttribute('data-fragment-index')] = fragment.getAttribute('data-speech');
+    }
+    console.log(fragmentSpeech);
+  });
+
+  Reveal.addEventListener('fragmentshown', function() {
+    fragmentIndex++;
+  });
+  Reveal.addEventListener('fragmenthidden', function() {
+    fragmentIndex--;
+  });
+
+  recognition.onresult = function(event) {
+    for (var i = event.resultIndex; i < event.results.length; ++i) {
+      if (event.results[i].isFinal) {
+        handleTranscript(event.results[i][0].transcript);
+      }
+    }
+  };
+
+  function handleTranscript(transcript) {
+    transcript = transcript.toLowerCase().split(' ').join('');
+    if (transcript.contains(config.nextKeyword)) {
+      Reveal.next();
+    } else if (transcript.contains(config.prevKeyword)) {
+      Reveal.prev();
+    } else if (transcript.contains(config.lastKeyword)) {
+      Reveal.slide(Reveal.getTotalSlides() - Reveal.getIndices().h);
+    } else if (transcript.contains(config.firstKeyword)) {
+      Reveal.slide(0);
+    }
+    // TODO - goto specific slide number
+
+    if (Object.keys(fragmentSpeech).length > 0 && transcript.contains(fragmentSpeech[fragmentIndex])) {
+      Reveal.nextFragment();
+    }
+
+    if (config.debug) {
+      console.log(transcript);
+    }
+  }
+
+  recognition.start();
+
+  return config;
+
+})();
