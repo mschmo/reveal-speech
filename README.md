@@ -13,12 +13,12 @@ You can also reveal fragments by attaching a ```data-speech``` attribute to the 
 
 ```html
 <section>
-	<h2>List of Delicious Things:</h2>
-	<ol>
-		<li class="fragment" data-speech="spaghetti">Spaghetti</li>
-		<li class="fragment" data-speech="chicken">Chicken</li>
-		<li class="fragment" data-speech="beer">Beer</li>
-	</ol>
+  <h2>List of Delicious Things:</h2>
+  <ol>
+    <li class="fragment" data-speech="spaghetti">Spaghetti</li>
+    <li class="fragment" data-speech="chicken">Chicken</li>
+    <li class="fragment" data-speech="beer">Beer</li>
+  </ol>
 </section>
 ```
 
@@ -28,17 +28,17 @@ You can customize certain configuration variables of the the ```RevealSpeech``` 
 
 ```javascript
 Reveal.initialize({
-	dependencies: [{
-		src: "plugin/speech/speech.js",
-		callback: function() {
-			RevealSpeech.configure({
-				nextKeyword: 'nextslide', 		// default gotonext
-				prevKeyword: 'previousslide', // default gotoprevious
-				lastKeyword: 'lastslide', 		// default gotolast
-				firstKeyword: 'firstslide', 	// default gotofirst
-				debug: true 									// default false
-			});
-		}
-	}]
+  dependencies: [{
+    src: "plugin/speech/speech.js",
+    callback: function() {
+      RevealSpeech.configure({
+				nextKeyword: 'nextslide',     // default gotonext
+        prevKeyword: 'previousslide', // default gotoprevious
+				lastKeyword: 'lastslide',     // default gotolast
+				firstKeyword: 'firstslide',   // default gotofirst
+				debug: true                   // default false
+      });
+    }
+  }]
 });
 ```
