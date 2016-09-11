@@ -24,6 +24,7 @@ var RevealSpeech = (function() {
 
   var fragmentSpeech = {};
   var fragmentIndex = 0;
+  var customNextSlidePhrase = null;
 
   String.prototype.contains = function(search) {
     return this.indexOf(search) !== -1;
@@ -36,6 +37,11 @@ var RevealSpeech = (function() {
   Reveal.addEventListener('slidechanged', function(event) {
     fragmentIndex = 0;
     fragmentSpeech = {};
+    if (!Reveal.isLastSlide()) {
+      customNextSlidePhrase = event.currentSlide.getAttribute('data-speech-next');
+    } else {
+      customNextSlidePhrase = null;
+    }
     var fragments = [].slice.call(event.currentSlide.getElementsByClassName('fragment')).filter(function(fragment) {
       return fragment.getAttribute('data-speech') !== null;
     });
@@ -48,6 +54,7 @@ var RevealSpeech = (function() {
       fragmentSpeech[fragment.getAttribute('data-fragment-index')] = fragment.getAttribute('data-speech');
     }
     if (config.debug) {
+      console.log(customNextSlidePhrase);
       console.log(fragmentSpeech);
     }
   });
@@ -55,6 +62,7 @@ var RevealSpeech = (function() {
   Reveal.addEventListener('fragmentshown', function() {
     fragmentIndex++;
   });
+
   Reveal.addEventListener('fragmenthidden', function() {
     fragmentIndex--;
   });
@@ -69,7 +77,7 @@ var RevealSpeech = (function() {
 
   function handleTranscript(transcript) {
     transcript = transcript.toLowerCase().split(' ').join('');
-    if (transcript.contains(config.nextKeyword)) {
+    if (transcript.contains(config.nextKeyword) || (customNextSlidePhrase !== null && transcript.contains(customNextSlidePhrase))) {
       Reveal.next();
     } else if (transcript.contains(config.prevKeyword)) {
       Reveal.prev();
