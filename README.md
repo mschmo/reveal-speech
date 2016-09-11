@@ -32,11 +32,11 @@ Reveal.initialize({
     src: "plugin/speech/speech.js",
     callback: function() {
       RevealSpeech.configure({
-				nextKeyword: 'nextslide',     // default gotonext
+        nextKeyword: 'nextslide',     // default gotonext
         prevKeyword: 'previousslide', // default gotoprevious
-				lastKeyword: 'lastslide',     // default gotolast
-				firstKeyword: 'firstslide',   // default gotofirst
-				debug: true                   // default false
+        lastKeyword: 'lastslide',     // default gotolast
+        firstKeyword: 'firstslide',   // default gotofirst
+        debug: true                   // default false
       });
     }
   }]
