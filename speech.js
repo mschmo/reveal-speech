@@ -12,6 +12,16 @@ var RevealSpeech = (function() {
     firstKeyword: 'gotofirst',
     debug: false
   };
+
+  function configure(options) {
+    for (var key in options) {
+      if (Object.keys(config).indexOf(key) === -1) {
+        continue;
+      }
+      config[key] = options[key];
+    }
+  }
+
   var fragmentSpeech = {};
   var fragmentIndex = 0;
 
@@ -37,7 +47,9 @@ var RevealSpeech = (function() {
       fragment = fragments[i];
       fragmentSpeech[fragment.getAttribute('data-fragment-index')] = fragment.getAttribute('data-speech');
     }
-    console.log(fragmentSpeech);
+    if (config.debug) {
+      console.log(fragmentSpeech);
+    }
   });
 
   Reveal.addEventListener('fragmentshown', function() {
@@ -79,6 +91,8 @@ var RevealSpeech = (function() {
 
   recognition.start();
 
-  return config;
+  return {
+    configure: configure
+  };
 
 })();
