@@ -61,3 +61,7 @@ Reveal.initialize({
   }]
 });
 ```
+
+#### Browser Support
+
+As of 2016-09-11, speech recognition interfaces are only supported in Chrome 33+ and Firefox 49+. Check [here](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API#Browser_compatibility) for more detail on browser capability.
