@@ -1,5 +1,24 @@
 This plugin for [reveal.js](https://github.com/hakimel/reveal.js/) allows the presenter to control slides with his or her voice.
 
+#### How To Use
+Copy ```speech.js``` from this repository into ```/plugin/speech``` and add it as a Reveal.js dependency:
+
+```javascript
+Reveal.initialize({
+  dependencies: [{src: "plugin/speech/speech.js" }]
+});
+```
+
+#### Built-In phrases
+There are a few default phrases you can say to control slide navigation:
+
+* "Goto Next" - Next slide
+* "Goto Previous" - Previous slide
+* "Goto Last" - Moves to the last slide of the presentation
+* "Goto First" - First slide of the presentation
+
+These can also be [modified](#Configuration).
+
 #### Custom Speech Phrases
 
 You can write define custom phrases to say to move to the next slide by applying a ```data-speech-next``` attribute to a ```<section>``` slide. Saying that attributes value will move to the next slide:
