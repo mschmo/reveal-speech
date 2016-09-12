@@ -17,7 +17,7 @@ There are a few default phrases you can say to control slide navigation:
 * "Goto Last" - Moves to the last slide of the presentation
 * "Goto First" - First slide of the presentation
 
-These can also be [modified](#Configuration).
+These can also be [modified](#configuration).
 
 #### Custom Speech Phrases
 
