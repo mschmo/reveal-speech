@@ -1,4 +1,4 @@
-This plugin for [reveal.js](https://github.com/hakimel/reveal.js/) allows the presenter to control slides with his or her voice.
+This plugin for [reveal.js](https://github.com/hakimel/reveal.js/) allows the presenter to control slides with his or her voice. Check out the [demo](http://mattschmoyer.com/projects/speech-presentation).
 
 #### How To Use
 Copy ```speech.js``` from this repository into ```/plugin/speech``` and add it as a Reveal.js dependency:
