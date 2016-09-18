@@ -51,7 +51,7 @@ var RevealSpeech = (function() {
     var fragment;
     for (var i = 0; i < fragments.length; i++) {
       fragment = fragments[i];
-      fragmentSpeech[fragment.getAttribute('data-fragment-index')] = fragment.getAttribute('data-speech');
+      fragmentSpeech[fragment.getAttribute('data-fragment-index')] = fragment.getAttribute('data-speech').toLowerCase();
     }
     if (config.debug) {
       console.log(customNextSlidePhrase);
