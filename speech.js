@@ -1,7 +1,7 @@
 var RevealSpeech = (function() {
 
   if (!('webkitSpeechRecognition' in window)) {
-    console.log('Upgrade your browser you little bitch.');
+    console.log('Browser must support webkitSpeechRecognition to use this plugin.');
     return;
   }
 
