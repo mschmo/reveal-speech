@@ -10,7 +10,8 @@ var RevealSpeech = (function() {
     prevKeyword: 'gotoprevious',
     lastKeyword: 'gotolast',
     firstKeyword: 'gotofirst',
-    debug: false
+    debug: false,
+    lang: ''
   };
 
   function configure(options) {
@@ -33,6 +34,7 @@ var RevealSpeech = (function() {
   var recognition = new webkitSpeechRecognition();
   recognition.continuous = true;
   recognition.interimResults = true;
+  recognition.lang = config.lang;
 
   Reveal.addEventListener('slidechanged', function(event) {
     fragmentIndex = 0;

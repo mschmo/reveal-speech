@@ -55,12 +55,15 @@ Reveal.initialize({
         prevKeyword: 'previousslide', // default gotoprevious
         lastKeyword: 'lastslide',     // default gotolast
         firstKeyword: 'firstslide',   // default gotofirst
-        debug: true                   // default false
+        debug: true,                  // default false
+        lang: 'de-DE'                 // default ''
       });
     }
   }]
 });
 ```
+
+More info on the `lang` attribute can be found [here](https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition/lang).
 
 #### Browser Support
 
