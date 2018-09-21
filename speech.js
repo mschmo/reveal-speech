@@ -17,12 +17,19 @@ var RevealSpeech = (function() {
   var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
   var recognition = new SpeechRecognition();
   function configure(options) {
+    recognition.stop();
     for (var key in options) {
       if (Object.keys(config).indexOf(key) === -1) {
         continue;
       }
       config[key] = options[key];
+      if (key == 'lang') {
+          if (recognition.lang != options[key]) {
+            recognition.lang = options[key];
+          }
+      }
     }
+    recognition.start();
   }
 
   var fragmentSpeech = {};
@@ -99,8 +106,6 @@ var RevealSpeech = (function() {
       console.log(transcript);
     }
   }
-
-  recognition.start();
 
   return {
     configure: configure
