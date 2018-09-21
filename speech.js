@@ -1,6 +1,6 @@
 var RevealSpeech = (function() {
 
-  if (!('webkitSpeechRecognition' in window)) {
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
     console.log('Browser must support webkitSpeechRecognition to use this plugin.');
     return;
   }
@@ -14,6 +14,8 @@ var RevealSpeech = (function() {
     lang: ''
   };
 
+  var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+  var recognition = new SpeechRecognition();
   function configure(options) {
     for (var key in options) {
       if (Object.keys(config).indexOf(key) === -1) {
@@ -31,7 +33,6 @@ var RevealSpeech = (function() {
     return this.indexOf(search) !== -1;
   };
 
-  var recognition = new webkitSpeechRecognition();
   recognition.continuous = true;
   recognition.interimResults = true;
   recognition.lang = config.lang;
