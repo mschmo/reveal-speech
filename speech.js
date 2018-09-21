@@ -85,7 +85,7 @@ var RevealSpeech = (function() {
     } else if (transcript.contains(config.prevKeyword)) {
       Reveal.prev();
     } else if (transcript.contains(config.lastKeyword)) {
-      Reveal.slide(Reveal.getTotalSlides() - Reveal.getIndices().h);
+      Reveal.slide(Number.MAX_VALUE);
     } else if (transcript.contains(config.firstKeyword)) {
       Reveal.slide(0);
     }
