@@ -36,10 +36,6 @@ var RevealSpeech = (function() {
   var fragmentIndex = 0;
   var customNextSlidePhrase = null;
 
-  String.prototype.contains = function(search) {
-    return this.indexOf(search) !== -1;
-  };
-
   recognition.continuous = true;
   recognition.interimResults = true;
   recognition.lang = config.lang;
@@ -87,18 +83,18 @@ var RevealSpeech = (function() {
 
   function handleTranscript(transcript) {
     transcript = transcript.toLowerCase().split(' ').join('');
-    if (transcript.contains(config.nextKeyword) || (customNextSlidePhrase !== null && transcript.contains(customNextSlidePhrase))) {
+    if (transcript.includes(config.nextKeyword) || (customNextSlidePhrase !== null && transcript.includes(customNextSlidePhrase))) {
       Reveal.next();
-    } else if (transcript.contains(config.prevKeyword)) {
+    } else if (transcript.includes(config.prevKeyword)) {
       Reveal.prev();
-    } else if (transcript.contains(config.lastKeyword)) {
+    } else if (transcript.includes(config.lastKeyword)) {
       Reveal.slide(Number.MAX_VALUE);
-    } else if (transcript.contains(config.firstKeyword)) {
+    } else if (transcript.includes(config.firstKeyword)) {
       Reveal.slide(0);
     }
     // TODO - goto specific slide number
 
-    if (Object.keys(fragmentSpeech).length > 0 && transcript.contains(fragmentSpeech[fragmentIndex])) {
+    if (Object.keys(fragmentSpeech).length > 0 && transcript.includes(fragmentSpeech[fragmentIndex])) {
       Reveal.nextFragment();
     }
 
