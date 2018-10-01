@@ -1,6 +1,6 @@
 var RevealSpeech = (function() {
 
-  if (!('webkitSpeechRecognition' in window)) {
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
     console.log('Browser must support webkitSpeechRecognition to use this plugin.');
     return;
   }
@@ -14,24 +14,28 @@ var RevealSpeech = (function() {
     lang: ''
   };
 
+  var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+  var recognition = new SpeechRecognition();
   function configure(options) {
+    recognition.stop();
     for (var key in options) {
       if (Object.keys(config).indexOf(key) === -1) {
         continue;
       }
       config[key] = options[key];
+      if (key == 'lang') {
+          if (recognition.lang != options[key]) {
+            recognition.lang = options[key];
+          }
+      }
     }
+    recognition.start();
   }
 
   var fragmentSpeech = {};
   var fragmentIndex = 0;
   var customNextSlidePhrase = null;
 
-  String.prototype.contains = function(search) {
-    return this.indexOf(search) !== -1;
-  };
-
-  var recognition = new webkitSpeechRecognition();
   recognition.continuous = true;
   recognition.interimResults = true;
   recognition.lang = config.lang;
@@ -79,18 +83,18 @@ var RevealSpeech = (function() {
 
   function handleTranscript(transcript) {
     transcript = transcript.toLowerCase().split(' ').join('');
-    if (transcript.contains(config.nextKeyword) || (customNextSlidePhrase !== null && transcript.contains(customNextSlidePhrase))) {
+    if (transcript.includes(config.nextKeyword) || (customNextSlidePhrase !== null && transcript.includes(customNextSlidePhrase))) {
       Reveal.next();
-    } else if (transcript.contains(config.prevKeyword)) {
+    } else if (transcript.includes(config.prevKeyword)) {
       Reveal.prev();
-    } else if (transcript.contains(config.lastKeyword)) {
-      Reveal.slide(Reveal.getTotalSlides() - Reveal.getIndices().h);
-    } else if (transcript.contains(config.firstKeyword)) {
+    } else if (transcript.includes(config.lastKeyword)) {
+      Reveal.slide(Number.MAX_VALUE);
+    } else if (transcript.includes(config.firstKeyword)) {
       Reveal.slide(0);
     }
     // TODO - goto specific slide number
 
-    if (Object.keys(fragmentSpeech).length > 0 && transcript.contains(fragmentSpeech[fragmentIndex])) {
+    if (Object.keys(fragmentSpeech).length > 0 && transcript.includes(fragmentSpeech[fragmentIndex])) {
       Reveal.nextFragment();
     }
 
@@ -98,8 +102,6 @@ var RevealSpeech = (function() {
       console.log(transcript);
     }
   }
-
-  recognition.start();
 
   return {
     configure: configure
